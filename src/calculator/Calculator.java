@@ -10,23 +10,77 @@ public class Calculator {
     public String calculate(String[] expression) {
         String a = expression[0];
         String b = expression[2];
-        String op = expression[1];
+        String c = "0";
+        String op1 = expression[1];
+        String op2 = "+";
+
+        if (expression.length == 5) {
+            c = expression[4];
+            op2 = expression[3];
+        }
 
         double da = Double.parseDouble(a);
         double db = Double.parseDouble(b);
+        double dc = Double.parseDouble(c);
 
-        double result;
-        switch (op) {
-            case "+":
-                result = da + db;
-                break;
+        double tmp1;
+        double tmp2;
+        double sign = 1;
+        String tmpOp;
+
+        switch (op1) {
             case "-":
-                result = da - db;
+                sign = -1;
+            case "+":
+                switch (op2) {
+                    case "*":
+                        tmp1 = da;
+                        tmp2 = db * dc;
+                        tmpOp = op1;
+                        break;
+                    case "/":
+                        tmp1 = da;
+                        tmp2 = db / dc;
+                        tmpOp = op1;
+                        break;
+                    default:
+                        tmp1 = da + sign * db;
+                        tmp2 = dc;
+                        tmpOp = op2;
+                        break;
+                }
+                break;
+            case "*":
+                tmp1 = da * db;
+                tmp2 = dc;
+                tmpOp = op2;
+                break;
+            case "/":
+                tmp1 = da / db;
+                tmp2 = dc;
+                tmpOp = op2;
                 break;
             default:
                 return "Error";
         }
 
+        double result;
+        switch (tmpOp) {
+            case "+":
+                result = tmp1 + tmp2;
+                break;
+            case "-":
+                result = tmp1 - tmp2;
+                break;
+            case "*":
+                result = tmp1 * tmp2;
+                break;
+            case "/":
+                result = tmp1 / tmp2;
+                break;
+            default:
+                return "Error";
+        }
 
         return String.valueOf(result);
     }
